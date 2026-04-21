@@ -1,39 +1,20 @@
-import express from 'express';
-import axios from 'axios';
+import axios from "axios";
 
-const app = express();
-const port = 3030;
+const BASE_URL = "https://t4e-testserver.onrender.com/api";
 
-const url = 'https://t4e-testserver.onrender.com/api';
+export const getToken = async (password) => {
+  const res = await axios.post(`${BASE_URL}/public/token`, {
 
-let dataset = [];
-
-const fetchData = async () => {
-    try {
-        const response1 = await axios.post(`${url}/public/token`, {
-            "Password": "112175",
-        });
-
-        const token = response1.data.token;
-        const dataurl = response1.data.dataUrl;
-        
-        const response2 = await axios.get(`${url}${dataurl}`, {
-            headers: { Authorization: `Bearer ${token}` }
-        });
-
-        dataset = response2.data;
-        console.log('Dataset loaded successfully');
-    } catch (error) {
-        console.error('Error fetching data:', error.message);
-    }
+    "password":"112175",
+  });
+  return res.data;
 };
 
-fetchData();
-
-app.get('/', (req, res) => {
-    res.send(dataset);
-});
-
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-});
+export const getDataset = async (token, dataUrl) => {
+  const res = await axios.get(`${BASE_URL}${dataUrl}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res.data;
+};
