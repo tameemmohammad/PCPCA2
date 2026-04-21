@@ -1,6 +1,6 @@
 import { createContext, useContext, useReducer, useEffect } from "react";
 import AppReducer from "../reducer/AppReducer";
-import { getToken, getDataset } from "../sevicces/api";
+import { getToken, getDataset } from "../sevices/api";
 
 const initialState = {
   activities: [],
@@ -16,8 +16,6 @@ export const AppProvider = ({ children }) => {
     const fetchActivities = async () => {
       try {
         const tokenRes = await getToken(
-          "20084016",
-          "264006",
           "activities"
         );
 
